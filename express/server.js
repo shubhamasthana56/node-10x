@@ -1,7 +1,10 @@
 const express = require("express");
 const app = express();
+const userController = require("./user");
 app.listen(3001);
 
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 app.get("/",(req, res)=> {
     console.log(req.query);
     const userData = [{
@@ -16,6 +19,10 @@ app.get("/",(req, res)=> {
     console.log(filteredUserData)
     res.send(filteredUserData);
 });
+
+
+//middleware
+app.use("/user", userController);
 
 ////
 
