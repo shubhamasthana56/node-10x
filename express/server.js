@@ -1,13 +1,18 @@
 const express = require("express");
 const path = require("path");
 const http = require("http");
+const mongoose = require("mongoose");
 //__dirname __file
 const app = express();
 const userController = require("./user");
 app.listen(3001);
-// http.createServer((req, res)=> {
-//     res.end()
-// }).listen(5000)
+
+mongoose.connect("mongodb://localhost/userdb", ()=> {
+    console.log("Connected to database")
+},(err)=> {
+    console.log(err)
+});
+
 const text = "Shubham";
 
 app.use(express.json());
