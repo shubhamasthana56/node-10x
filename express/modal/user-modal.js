@@ -22,4 +22,13 @@ const userInfoSchema = new mongoose.Schema({
     },
     password: String
 });
-module.exports = mongoose.model("userInfo", userInfoSchema);
+
+const postSchema = new mongoose.Schema({
+    postedBy: mongoose.Schema.Types.ObjectId,
+    type: String
+});
+const userInfo = mongoose.model("userInfo", userInfoSchema);
+const post = mongoose.model("post", postSchema);
+module.exports = {
+    userInfo, post
+}
