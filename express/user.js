@@ -39,20 +39,23 @@ const router = express.Router();
 
 const checkExistingUser = async(userName)=> {
     let userExist = false;
-    await userInfo.find().then((users)=> {
-        for(let i=0;i<users.length;i++) {
-            if(userName.toLowerCase() === users[i].username.toLowerCase()) {
-                userExist = true;
-                break;
-            }
+    await userInfo.find({username: userName}).then((user)=> {
+        if(user.length) {
+            userExist = true;
         }
-    });
-    console.log(userExist);
+        // for(let i=0;i<users.length;i++) {
+        //     if(userName.toLowerCase() === users[i].username.toLowerCase()) {
+        //         userExist = true;
+        //         break;
+        //     }
+        // }
+    }).catch((err)=> {
+        console.log(err, "err")
+    } );
     return userExist;
 }
-router.post("/createuser", (req,res)=> {
-    console.log(checkExistingUser(req.body.username))
-    if(checkExistingUser(req.body.username)) {
+router.post("/createuser", async(req,res)=> {
+    if(await checkExistingUser(req.body.username)) {
         res.status(400).send(`${req.body.username} already exist`)
     } else {
         userInfo.create({username: req.body.username, password: req.body.password}).then((user)=> {
