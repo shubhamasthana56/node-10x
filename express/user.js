@@ -37,12 +37,31 @@ const router = express.Router();
 //     });
 // });
 
+const checkExistingUser = async(userName)=> {
+    let userExist = false;
+    await userInfo.find().then((users)=> {
+        for(let i=0;i<users.length;i++) {
+            if(userName.toLowerCase() === users[i].username.toLowerCase()) {
+                userExist = true;
+                break;
+            }
+        }
+    });
+    console.log(userExist);
+    return userExist;
+}
 router.post("/createuser", (req,res)=> {
-    userInfo.create({username: req.body.username, password: req.body.password}).then((user)=> {
-        res.send(`${user.username} created successfully`);
-    }).catch((err)=> {
-        console.log(err);
-    })
+    console.log(checkExistingUser(req.body.username))
+    if(checkExistingUser(req.body.username)) {
+        res.status(400).send(`${req.body.username} already exist`)
+    } else {
+        userInfo.create({username: req.body.username, password: req.body.password}).then((user)=> {
+            res.status(200).send(`${user.username} created successfully`);
+        }).catch((err)=> {
+            res.status(400).send(err.message)
+        })
+    }
+    
 });
 router.get("/list",(req,res)=> {
     userInfo.find().then((userData)=> {
