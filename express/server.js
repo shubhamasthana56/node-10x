@@ -4,7 +4,8 @@ const http = require("http");
 const mongoose = require("mongoose");
 //__dirname __file
 const app = express();
-const userController = require("./user");
+app.set("view engine", "ejs");
+const userController = require("./mongoose/user");
 app.listen(3001);
 
 mongoose.connect("mongodb://localhost/userdb", ()=> {
@@ -18,11 +19,11 @@ const text = "Shubham";
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.get("/",(req, res)=> {
-    res.sendFile(path.join(__dirname + '/index.html'))
+    res.sendFile(path.join(__dirname + '/views/index.html'))
 });
 
 app.get("/about",(req, res)=> {
-    res.sendFile(path.join(__dirname + '/about.html'))
+    res.sendFile(path.join(__dirname + '/views/about.html'))
 });
 
 

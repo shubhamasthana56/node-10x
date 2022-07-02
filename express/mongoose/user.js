@@ -1,7 +1,8 @@
 const express = require("express");
-const userInfo = require("./modal/user-modal");
+const {userInfo} = require("./modal/user-modal");
 
 const router = express.Router();
+const path = require("path");
 
 // router.get("/", (req, res)=> {
 //     userInfo.find().then((user)=> {
@@ -54,6 +55,9 @@ const checkExistingUser = async(userName)=> {
     } );
     return userExist;
 }
+router.get("/",(req, res)=> {
+    res.render("form")
+})
 router.post("/createuser", async(req,res)=> {
     if(await checkExistingUser(req.body.username)) {
         res.status(400).send(`${req.body.username} already exist`)
