@@ -3,6 +3,10 @@ const {userInfo} = require("./modal/user-modal");
 
 const router = express.Router();
 const path = require("path");
+const bcrypt = require("bcryptjs");
+const salt = 10;
+
+
 
 // router.get("/", (req, res)=> {
 //     userInfo.find().then((user)=> {
@@ -62,11 +66,20 @@ router.post("/createuser", async(req,res)=> {
     if(await checkExistingUser(req.body.username)) {
         res.status(400).send(`${req.body.username} already exist`)
     } else {
-        userInfo.create({username: req.body.username, password: req.body.password}).then((user)=> {
-            res.status(200).send(`${user.username} created successfully`);
-        }).catch((err)=> {
-            res.status(400).send(err.message)
-        })
+        bcrypt.genSalt(salt, (saltErr, saltValue)=> {
+            if(saltErr) {
+                return err
+            } else {
+                bcrypt.hash(req.body.password, saltValue, (hashErr, hashValue)=> {
+                    userInfo.create({username: req.body.username, password: hashValue}).then((user)=> {
+                        res.status(200).send(`${user.username} created successfully`);
+                    }).catch((err)=> {
+                        res.status(400).send(err.message)
+                    })
+                });
+            }
+        });
+        
     }
     
 });
