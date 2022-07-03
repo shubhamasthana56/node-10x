@@ -3,6 +3,7 @@ const path = require("path");
 const http = require("http");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
+const authController = require("./JWT/login");
 //__dirname __file
 const app = express();
 app.set("view engine", "ejs");
@@ -30,7 +31,6 @@ app.get("/about",(req, res)=> {
 
 //middleware
 app.use("/user", userController);
-
+app.use("/auth", authController);
 ////
-
 
