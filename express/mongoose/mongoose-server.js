@@ -1,36 +1,39 @@
+require('dotenv').config()
 const express = require("express");
 const path = require("path");
-const http = require("http");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
-const authController = require("./JWT/login");
-//__dirname __file
+const userController = require("./user");
 const app = express();
-app.set("view engine", "ejs");
-const userController = require("./mongoose/user");
-app.listen(3001);
 
+//setuping view engine
+app.set("view engine", "ejs");
+
+//express server start
+app.listen(3001, (err)=> {
+    if(!err) {
+        console.log(` Server started on 3001`)
+    }
+});
+
+//Database connnection
 mongoose.connect("mongodb://localhost/userdb", ()=> {
     console.log("Connected to database")
 },(err)=> {
     console.log(err)
 });
 
-const text = "Shubham";
-
+//Body parser to support JSON and form encoding
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+
 app.get("/",(req, res)=> {
-    res.sendFile(path.join(__dirname + '/views/index.html'))
+    res.sendFile(path.join(__dirname + '/html-pages/index.html'))
 });
 
 app.get("/about",(req, res)=> {
-    res.sendFile(path.join(__dirname + '/views/about.html'))
+    res.sendFile(path.join(__dirname + '/html-pages/about.html'))
 });
-
 
 //middleware
 app.use("/user", userController);
-app.use("/auth", authController);
-////
-

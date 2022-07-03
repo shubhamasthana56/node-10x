@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {userInfo} = require("../mongoose/modal/user-modal");
+const {userInfo} = require("../common/modal/user-modal");
 const bcrypt = require("bcryptjs");
 
 router.post("/login", (req, res)=> {

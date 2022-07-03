@@ -1,5 +1,5 @@
 const express = require("express");
-const {userInfo} = require("./modal/user-modal");
+const {userInfo} = require("../common/modal/user-modal");
 
 const router = express.Router();
 const path = require("path");
