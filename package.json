@@ -19,6 +19,7 @@
   "homepage": "https://github.com/shubhamasthana56/node-10x#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "ejs": "^3.1.8",
     "express": "^4.18.1",
     "mongoose": "^6.4.1",
     "nodemon": "^2.0.18"

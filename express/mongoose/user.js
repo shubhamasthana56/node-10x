@@ -63,6 +63,7 @@ router.get("/",(req, res)=> {
     res.render("form")
 })
 router.post("/createuser", async(req,res)=> {
+    console.log(req.body, req.params, req.query);
     if(await checkExistingUser(req.body.username)) {
         res.status(400).send(`${req.body.username} already exist`)
     } else {
@@ -72,7 +73,8 @@ router.post("/createuser", async(req,res)=> {
             } else {
                 bcrypt.hash(req.body.password, saltValue, (hashErr, hashValue)=> {
                     userInfo.create({username: req.body.username, password: hashValue}).then((user)=> {
-                        res.status(200).send(`${user.username} created successfully`);
+                        //res.status(200).send(`${user.username} created successfully`);
+                        res.redirect("/user/list");
                     }).catch((err)=> {
                         res.status(400).send(err.message)
                     })
@@ -85,7 +87,7 @@ router.post("/createuser", async(req,res)=> {
 });
 router.get("/list",(req,res)=> {
     userInfo.find().then((userData)=> {
-        res.send(userData);
+        res.render("user", {users: userData});
     });
 });
 router.put("/resetpassword",(req, res)=> {

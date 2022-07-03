@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const http = require("http");
 const mongoose = require("mongoose");
+const ejs = require("ejs");
 //__dirname __file
 const app = express();
 app.set("view engine", "ejs");
