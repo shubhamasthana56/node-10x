@@ -17,11 +17,11 @@ app.listen(3001, (err)=> {
 });
 
 //Database connnection
-mongoose.connect("mongodb://localhost/userdb", ()=> {
-    console.log("Connected to database")
-},(err)=> {
+mongoose.connect("mongodb://localhost/userdb").then(()=> {
+    console.log("Connected to db")
+}).catch((err)=> {
     console.log(err)
-});
+})
 
 //Body parser to support JSON and form encoding
 app.use(express.json());
